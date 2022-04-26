@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 // rtmp://123.56.88.254/myapp/mystream 地址推流后
                 // 可以直接在 RTMP 服务器端的主页, 使用 JWPlayer 观看直播内容
                 // 网页地址是 http//123.56.88.254:8080/
-                String rtmpServerAddress = "rtmp://123.56.88.254/myapp/mystream";
+                String rtmpServerAddress = "rtmp://112.124.14.174/live/0";
                 mLivePusher.startLive(rtmpServerAddress);
                 ((TextView)findViewById(R.id.textViewUrl))
                         .setText("推流地址 : " + rtmpServerAddress);
