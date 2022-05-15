@@ -1,6 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="CommonTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWindowBackGround</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -14,19 +22,10 @@
         <!--<item name="android:windowIsTranslucent">true</item>-->
     </style>
 
-    <style name="AppTheme.Launcher.Translucent" parent="AppTheme">
-        <!-- 将背景设置成透明的 -->
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="AppTheme.Launcher.Picture" parent="AppTheme">
-        <!-- 设置应用启动时默认显示的图片 , 这样比白屏/黑屏体验好一些 -->
-        <item name="android:windowBackground">@mipmap/ic_launcher</item>
-    </style>
-
-    <style name="AppTheme.NoBackground" parent="AppTheme">
-        <!-- 布局渲染时, 不设置主题背景, 避免过度重绘 -->
-        <!--<item name="android:windowBackground">"null"</item>-->
+    <!-- 圆形图片 -->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

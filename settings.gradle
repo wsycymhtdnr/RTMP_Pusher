@@ -1,2 +1,4 @@
 rootProject.name='RTMP_Pusher'
 include ':app'
+include ':ijkplayerlibrary'
+include ':fastvideoplayer'
