@@ -22,7 +22,7 @@ import java.util.List;
 public class CourseFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private List<String> mList;
-    private String[] mCourses = {"课程0", "课程1", "课程2", "课程3", "课程4", "课程5"};
+    private String[] mCourses = {"直播课程0", "直播课程1", "直播课程2", "直播课程3", "直播课程4", "直播课程5"};
 
     @Override
     protected int getLayoutRes() {

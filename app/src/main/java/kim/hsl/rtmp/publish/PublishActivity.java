@@ -25,6 +25,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.mooc.libcommon.dialog.LoadingDialog;
 import com.mooc.libcommon.utils.FileUtils;
 import com.mooc.libnetwork.ApiResponse;
@@ -78,6 +79,7 @@ public class PublishActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,6 +87,8 @@ public class PublishActivity extends AppCompatActivity {
             List<MediaEntity> list = MediaPicker.obtainMediaResults(data);
             if (list != null) {
                 Log.e("PublishActivity", list.get(0).getPath());
+                filePath = list.get(0).getPath();
+                publish();
             }
         }
     }
@@ -96,11 +100,11 @@ public class PublishActivity extends AppCompatActivity {
             if (isVideo) {
                 //生成视频封面文件
                 FileUtils.generateVideoCover(filePath).observe(this, new Observer<String>() {
-                    @SuppressLint("RestrictedApi")
+                    @SuppressLint({"RestrictedApi", "CheckResult"})
                     @Override
                     public void onChanged(String coverPath) {
                         coverFilePath = coverPath;
-
+                        Glide.with(mIvAddFile).load(coverFilePath);
                         OneTimeWorkRequest request = getOneTimeWorkRequest(coverPath);
                         coverUploadUUID = request.getId();
                         workRequests.add(request);
@@ -294,22 +298,4 @@ public class PublishActivity extends AppCompatActivity {
 //            showFileThumbnail();
 //        }
 //    }
-
-    private void showFileThumbnail() {
-
-        if (TextUtils.isEmpty(filePath)) {
-            return;
-        }
-
-//        mBinding.actionAddFile.setVisibility(View.GONE);
-//        mBinding.fileContainer.setVisibility(View.VISIBLE);
-//        mBinding.cover.setImageUrl(filePath);
-//        mBinding.videoIcon.setVisibility(isVideo ? View.VISIBLE : View.GONE);
-//        mBinding.cover.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PreviewActivity.startActivityForResult(PublishActivity.this, filePath, isVideo, null);
-//            }
-//        });
-    }
 }

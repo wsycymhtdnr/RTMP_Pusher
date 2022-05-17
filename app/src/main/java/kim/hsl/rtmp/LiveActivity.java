@@ -11,13 +11,13 @@ import com.hengyi.fastvideoplayer.library.FastVideoPlayer;
 
 public class LiveActivity extends AppCompatActivity {
     private FastVideoPlayer videoPlayer;
-    private Button play;
+    //private Button play;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
         videoPlayer = findViewById(R.id.fastvideo_player);
-        play = findViewById(R.id.play);
+        //play = findViewById(R.id.play);
         videoPlayer.setLive(true);//是直播还是点播  false为点播
         videoPlayer.setScaleType(FastVideoPlayer.SCALETYPE_FITXY);
         videoPlayer.setTitle("课程*");//设置标题
@@ -26,12 +26,12 @@ public class LiveActivity extends AppCompatActivity {
         //封面图加载
         //Glide.with(this).load("https://bot.tmall.com/guide/img/guide1-bg760.png").into(videoPlayer.getCoverImage());
 
-        play.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                videoPlayer.play();
-            }
-        });
+//        play.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                videoPlayer.play();
+//            }
+//        });
 
 //        videoPlayer.setScreenListener(new FastVideoPlayerScreenListener() {
 //            @Override
