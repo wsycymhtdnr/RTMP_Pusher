@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\interpolator-v21\\mtrl_fast_out_slow_in.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\fe10265984deab6d3e455d314f74a454\\res\\interpolator-v21\\mtrl_fast_out_slow_in.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\interpolator-v21\\mtrl_fast_out_linear_in.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\fe10265984deab6d3e455d314f74a454\\res\\interpolator-v21\\mtrl_fast_out_linear_in.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\interpolator-v21\\mtrl_linear_out_slow_in.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\fe10265984deab6d3e455d314f74a454\\res\\interpolator-v21\\mtrl_linear_out_slow_in.xml"
+    }
+]

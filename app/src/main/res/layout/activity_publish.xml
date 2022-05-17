@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/action_close"
+            android:layout_centerVertical="true"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="35dp"
+            android:padding="6dp"
+            android:src="@drawable/icon_close" />
+
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/title"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="课程发布"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="发布"
+            android:textColor="#ffffff"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="15dp" />
+
+        <View
+            android:background="#F4F3F4"
+            android:layout_alignParentBottom="true"
+            android:layout_height="2px"
+            android:layout_width="match_parent" />
+    </RelativeLayout>
+
+    <EditText
+        android:background="#ffffff"
+        android:gravity="left|top"
+        android:hint="输入课程标题"
+        android:id="@+id/input_view"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:maxLines="1000"
+        android:minHeight="100dp"
+        android:padding="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#999999"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+
+    <View
+        android:background="#F4F3F4"
+        android:id="@+id/input_line"
+        android:layout_height="2px"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_view" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/action_add_file"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="80dp"
+        android:src="@drawable/ic_add_file"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

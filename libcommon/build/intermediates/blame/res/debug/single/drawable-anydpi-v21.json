@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\design_ic_visibility.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\fe10265984deab6d3e455d314f74a454\\res\\drawable-anydpi-v21\\design_ic_visibility.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_fastforward.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_fastforward.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\design_ic_visibility_off.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\fe10265984deab6d3e455d314f74a454\\res\\drawable-anydpi-v21\\design_ic_visibility_off.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_next.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_next.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_repeat_off.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_repeat_off.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_shuffle.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_shuffle.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_pause.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_pause.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_edit_mode_logo.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_edit_mode_logo.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_fullscreen_enter.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_fullscreen_enter.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_rewind.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_rewind.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_play.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_play.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_repeat_all.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_repeat_all.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_stop.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_stop.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_fullscreen_exit.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_fullscreen_exit.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_icon_previous.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_icon_previous.xml"
+    },
+    {
+        "merged": "D:\\work\\RTMP_Pusher\\libcommon\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21\\exo_controls_repeat_one.xml",
+        "source": "D:\\ASGradle\\caches\\transforms-2\\files-2.1\\91e42a0dd31dba25b4cb823a856da738\\res\\drawable-anydpi-v21\\exo_controls_repeat_one.xml"
+    }
+]

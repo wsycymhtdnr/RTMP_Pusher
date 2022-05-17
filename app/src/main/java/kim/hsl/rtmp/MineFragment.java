@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import kim.hsl.rtmp.publish.PublishActivity;
+
 /**
  * @Author: liyuncong
  * @Description:
@@ -13,6 +15,7 @@ import android.widget.TextView;
 public class MineFragment extends BaseFragment {
     private Button mBtStartLive;
     private TextView mTvUserNameMime;
+    private Button mBtPublish;
 
     @Override
     protected int getLayoutRes() {
@@ -23,6 +26,13 @@ public class MineFragment extends BaseFragment {
     protected void initView() {
         mBtStartLive = mRootView.findViewById(R.id.bt_start_live);
         mTvUserNameMime = mRootView.findViewById(R.id.tv_user_name_mine);
+        mBtPublish = mRootView.findViewById(R.id.bt_post_file);
+        mBtPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MineFragment.this.getContext().startActivity(new Intent(MineFragment.this.getContext(), PublishActivity.class));
+            }
+        });
         mTvUserNameMime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
