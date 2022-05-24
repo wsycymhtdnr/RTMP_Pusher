@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+//import com.tencent.mmkv.MMKV;
+
 import kim.hsl.rtmp.publish.PublishActivity;
 
 /**
@@ -20,6 +22,16 @@ public class MineFragment extends BaseFragment {
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_mine;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        MMKV mmkv = MMKV.defaultMMKV();
+//        String phone = mmkv.decodeString("phone");
+//        if (phone != null) {
+//            mTvUserNameMime.setText(phone);
+//        }
     }
 
     @Override
