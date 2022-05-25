@@ -2,6 +2,8 @@ package kim.hsl.rtmp.publish;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,14 +20,17 @@ import com.wlf.mediapick.entity.MediaEntity;
 import com.wlf.mediapick.entity.MediaPickConstants;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import kim.hsl.rtmp.R;
 import kim.hsl.rtmp.model.JsonResponse;
-import kim.hsl.rtmp.model.User;
+import kim.hsl.rtmp.model.Video;
+import kim.hsl.rtmp.model.VideoTag;
 import kim.hsl.rtmp.net.Api;
+import kim.hsl.rtmp.util.Base64Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -43,11 +48,12 @@ public class PublishActivity extends AppCompatActivity {
     private EditText mInput;
     private ImageView mIvAddFile;
     private int width, height;
-    private String filePath, fileName, fileType;
+    private String filePath, fileName, fileType, mRemoteFilePath;
     private boolean isVideo = true;
     private UUID coverUploadUUID, fileUploadUUID;
     private String coverUploadUrl, fileUploadUrl;
     private Api request;
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +76,7 @@ public class PublishActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl("https://c125-171-113-194-1.ngrok.io/")
+                .baseUrl("https://1903-171-113-194-1.ngrok.io/")
                 .build();
         request = retrofit.create(Api.class);
 
@@ -78,6 +84,13 @@ public class PublishActivity extends AppCompatActivity {
         mBtPublish = findViewById(R.id.action_publish);
         mInput = findViewById(R.id.input_view);
         mIvAddFile = findViewById(R.id.action_add_file);
+        mBtPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publish();
+            }
+        });
+
         mIvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +108,43 @@ public class PublishActivity extends AppCompatActivity {
         });
     }
 
+    private void publish() {
+        Video video = new Video();
+        video.setArea("0");
+        if (mInput.getText().toString().equals("")) {
+            Toast.makeText(PublishActivity.this, "请输入标题", Toast.LENGTH_SHORT).show();
+        }
+        if (mBitmap == null) {
+            Toast.makeText(PublishActivity.this, "请先选择要上传的视频", Toast.LENGTH_SHORT).show();
+        }
+        Log.d("PublishActivity",Base64Utils.bitmapToBase64(mBitmap).length() + "");
+        //video.setThumbnail(Base64Utils.bitmapToBase64(mBitmap));
+        video.setThumbnail("12345");
+        video.setType("0");
+        video.setDuration("1213");
+        video.setDescription("description");
+        video.setTitle(mInput.getText().toString());
+        video.setUrl(mRemoteFilePath);
+        VideoTag videoTag = new VideoTag(1L, 1L);
+        List<VideoTag> list = new ArrayList<>();
+        list.add(videoTag);
+        video.setVideoTagList(list);
+        Call<JsonResponse<String>> call = request.publish(video);
+        call.enqueue(new Callback<JsonResponse<String>>() {
+            @Override
+            public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+                if (response.body() != null && response.body().getCode().equals("0")) {
+                    Toast.makeText(PublishActivity.this, "视频发布成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<String>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
     @SuppressLint("CheckResult")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -107,32 +157,51 @@ public class PublishActivity extends AppCompatActivity {
                 fileName = list.get(0).getName();
                 fileType = list.get(0).getMimeType();
                 Log.d("dasdad", list.get(0).getMimeType());
-                publish();
+                upload();
             }
         }
     }
 
-    private void publish() {
+    private void upload() {
         File file = new File(filePath);
 
         MultipartBody.Part part = MultipartBody.Part.createFormData("slice",
                 fileName, RequestBody.create(file, MediaType.parse(fileType)));
-        Call<JsonResponse<String>> call = request.publish(part, "46546", 1, 1);
+        Call<JsonResponse<String>> call = request.upload(part, null, 1, 1);
         call.enqueue(new Callback<JsonResponse<String>>() {
             @Override
             public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
                 if (response.body() != null && response.body().getCode().equals("0")) {
-                    Toast.makeText(PublishActivity.this, "视频发布成功", Toast.LENGTH_SHORT).show();
+                    mBitmap = getLocalVideoBitmap(filePath);
+                    mIvAddFile.setImageBitmap(mBitmap);
+                    mRemoteFilePath = response.body().getData();
+                    Toast.makeText(PublishActivity.this, "视频上传成功", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(PublishActivity.this, "视频发布失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishActivity.this, "视频上传失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<String>> call, Throwable throwable) {
-                Toast.makeText(PublishActivity.this, "视频发布失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PublishActivity.this, "视频上传失败", Toast.LENGTH_SHORT).show();
                 Log.d("PublishActivity:", throwable.toString());
             }
         });
+    }
+
+    public Bitmap getLocalVideoBitmap(String localPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            //根据文件路径获取缩略图
+            retriever.setDataSource(localPath);
+            //获得第一帧图片
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return bitmap;
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import kim.hsl.rtmp.model.JsonResponse;
 import kim.hsl.rtmp.model.User;
+import kim.hsl.rtmp.model.Video;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -31,7 +32,10 @@ public interface Api {
     @POST("/user-tokens")
     Call<JsonResponse<String>> login(@Body User user);
 
+    @POST("/videos")
+    Call<JsonResponse<String>> publish(@Body Video video);
+
     @Multipart
     @PUT("/file-slices")
-    Call<JsonResponse<String>> publish(@Part MultipartBody.Part slice, @Part("fileMd5") String fileMd5, @Part("sliceNo") int sliceNo, @Part("totalSliceNo") int totalSliceNo);
+    Call<JsonResponse<String>> upload(@Part MultipartBody.Part slice, @Part("fileMd5") String fileMd5, @Part("sliceNo") int sliceNo, @Part("totalSliceNo") int totalSliceNo);
 }
