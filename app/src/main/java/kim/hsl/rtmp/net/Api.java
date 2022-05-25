@@ -2,6 +2,7 @@ package kim.hsl.rtmp.net;
 
 import java.util.List;
 
+import kim.hsl.rtmp.model.CourseModel;
 import kim.hsl.rtmp.model.JsonResponse;
 import kim.hsl.rtmp.model.User;
 import kim.hsl.rtmp.model.Video;
@@ -34,6 +35,9 @@ public interface Api {
 
     @POST("/videos")
     Call<JsonResponse<String>> publish(@Body Video video);
+
+    @GET("/videos")
+    Call<JsonResponse<CourseModel>> getVideos(@Query("size") int size, @Query("no") int no, @Query("area") String area);
 
     @Multipart
     @PUT("/file-slices")

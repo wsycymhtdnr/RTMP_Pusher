@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import kim.hsl.rtmp.R;
 import kim.hsl.rtmp.model.JsonResponse;
@@ -31,6 +32,8 @@ import kim.hsl.rtmp.model.Video;
 import kim.hsl.rtmp.model.VideoTag;
 import kim.hsl.rtmp.net.Api;
 import kim.hsl.rtmp.util.Base64Utils;
+import kim.hsl.rtmp.util.Bitmaptest;
+import kim.hsl.rtmp.util.MD5Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -43,6 +46,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PublishActivity extends AppCompatActivity {
+    public static final String BASE_URL = "https://df12-171-113-194-1.ngrok.io/";
     private ImageView mIvClose;
     private Button mBtPublish;
     private EditText mInput;
@@ -70,13 +74,15 @@ public class PublishActivity extends AppCompatActivity {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .connectTimeout(600000, TimeUnit.MILLISECONDS)
+                .readTimeout(600000, TimeUnit.MILLISECONDS)
                 .build();
 
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl("https://1903-171-113-194-1.ngrok.io/")
+                .baseUrl(BASE_URL)
                 .build();
         request = retrofit.create(Api.class);
 
@@ -113,13 +119,15 @@ public class PublishActivity extends AppCompatActivity {
         video.setArea("0");
         if (mInput.getText().toString().equals("")) {
             Toast.makeText(PublishActivity.this, "请输入标题", Toast.LENGTH_SHORT).show();
+            return;
         }
         if (mBitmap == null) {
             Toast.makeText(PublishActivity.this, "请先选择要上传的视频", Toast.LENGTH_SHORT).show();
+            return;
         }
-        Log.d("PublishActivity",Base64Utils.bitmapToBase64(mBitmap).length() + "");
-        //video.setThumbnail(Base64Utils.bitmapToBase64(mBitmap));
-        video.setThumbnail("12345");
+        //Log.d("PublishActivity",Base64Utils.bitmapToBase64(Bitmaptest.scaleImage(mBitmap, 50, 50)).length() + "");
+        video.setThumbnail(Base64Utils.bitmapToBase64(Bitmaptest.scaleImage(mBitmap, mBitmap.getWidth() / 10, mBitmap.getHeight()/10)));
+        //video.setThumbnail("12345");
         video.setType("0");
         video.setDuration("1213");
         video.setDescription("description");
@@ -135,6 +143,7 @@ public class PublishActivity extends AppCompatActivity {
             public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
                 if (response.body() != null && response.body().getCode().equals("0")) {
                     Toast.makeText(PublishActivity.this, "视频发布成功", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
 
@@ -167,7 +176,7 @@ public class PublishActivity extends AppCompatActivity {
 
         MultipartBody.Part part = MultipartBody.Part.createFormData("slice",
                 fileName, RequestBody.create(file, MediaType.parse(fileType)));
-        Call<JsonResponse<String>> call = request.upload(part, null, 1, 1);
+        Call<JsonResponse<String>> call = request.upload(part, MD5Utils.getMD5(fileName), 1, 1);
         call.enqueue(new Callback<JsonResponse<String>>() {
             @Override
             public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {

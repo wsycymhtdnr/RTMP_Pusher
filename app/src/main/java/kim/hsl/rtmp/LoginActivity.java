@@ -1,6 +1,9 @@
 package kim.hsl.rtmp;
 
+import static kim.hsl.rtmp.publish.PublishActivity.BASE_URL;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://84ec-171-113-194-1.ngrok.io/")
+                .baseUrl(BASE_URL)
                 .build();
         request = retrofit.create(Api.class);
         mEtPhone = findViewById(R.id.et_phone);
@@ -65,8 +68,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
                         if (response.body() != null && response.body().getCode().equals("0")) {
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-//                            MMKV mmkv = MMKV.defaultMMKV();
-//                            mmkv.encode("phone", phone);
+                            SharedPreferences share = getSharedPreferences("myshare",MODE_PRIVATE);
+                            SharedPreferences.Editor edr = share.edit();
+                            edr.putString("phone",phone);
+                            edr.commit();
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();

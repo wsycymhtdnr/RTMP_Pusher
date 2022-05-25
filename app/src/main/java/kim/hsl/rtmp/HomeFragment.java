@@ -1,7 +1,10 @@
 package kim.hsl.rtmp;
 
+import static kim.hsl.rtmp.publish.PublishActivity.BASE_URL;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +21,19 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import kim.hsl.rtmp.model.CourseModel;
+import kim.hsl.rtmp.model.JsonResponse;
+import kim.hsl.rtmp.net.Api;
+import kim.hsl.rtmp.util.Base64Utils;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @Author: liyuncong
@@ -27,6 +42,7 @@ import kim.hsl.rtmp.model.CourseModel;
  */
 public class HomeFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
+    private Api request;
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_home;
@@ -35,33 +51,52 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        CourseModel course0 = new CourseModel("https://img.cniao5.com/FrYffHQKU6PGgjUgvmwUKMP25IgW", "这是一个测试课程", 100);
-        CourseModel course1 = new CourseModel("https://img.cniao5.com/Fv5SR6xtqqqhKykUhSOhqqCiEB2u", "这是一个Python的测试课程-编辑", 101);
-        CourseModel course2 = new CourseModel("https://img.cniao5.com/o_1ddq1fomphmm1b8l1qir1ejv1uaf7.png", "SpringCloud微服务实战", 108);
-        CourseModel course3 = new CourseModel("https://img.cniao5.com/o_1dd53qgubgruu9lsuq16fmjfq7.png", "基础人工智能特训营", 150);
-        CourseModel course4 = new CourseModel("https://img.cniao5.com/o_1dch1tl35nrhq079nbpoo1jlo7.png", "大数据舆情监控系统", 180);
-        List<CourseModel> list = new ArrayList<>();
-        list.add(course0);
-        list.add(course1);
-        list.add(course2);
-        list.add(course3);
-        list.add(course4);
-        list.add(course0);
-        list.add(course1);
-        list.add(course2);
-        list.add(course3);
-        list.add(course4);
-
         mRecyclerView = mRootView.findViewById(R.id.rv_course);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mRecyclerView.setAdapter(new CourseAdapter(this.getContext(), list));
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                //打印retrofit日志
+                Log.i("RetrofitLog","retrofitBack = "+message);
+            }
+        });
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .connectTimeout(600000, TimeUnit.MILLISECONDS)
+                .readTimeout(600000, TimeUnit.MILLISECONDS)
+                .build();
+
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .baseUrl(BASE_URL)
+                .build();
+        request = retrofit.create(Api.class);
+        Call<JsonResponse<CourseModel>> call = request.getVideos(100, 1, "0");
+        call.enqueue(new Callback<JsonResponse<CourseModel>>() {
+            @Override
+            public void onResponse(Call<JsonResponse<CourseModel>> call, Response<JsonResponse<CourseModel>> response) {
+                if (response.body() != null && response.body().getCode().equals("0")) {
+                    List<CourseModel.ListDTO> list = response.body().getData().getList();
+                    mRecyclerView.setAdapter(new CourseAdapter(HomeFragment.this.getContext(), list));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<CourseModel>> call, Throwable throwable) {
+
+            }
+        });
+
     }
 
     static class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
-        private List<CourseModel> mList;
+        private List<CourseModel.ListDTO> mList;
         private Context mContext;
 
-        public CourseAdapter(Context context, List<CourseModel> list) {
+        public CourseAdapter(Context context, List<CourseModel.ListDTO> list) {
             mContext = context;
             mList = list;
         }
@@ -77,11 +112,15 @@ public class HomeFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder courseViewHolder, int i) {
             courseViewHolder.tvTitle.setText(mList.get(i).getTitle());
             courseViewHolder.num.setText(mList.get(i).getNum() + "人学习了");
-            Glide.with(mContext).load(mList.get(i).getImgString()).into(courseViewHolder.imageView);
-            courseViewHolder.tvTitle.setOnClickListener(new View.OnClickListener() {
+            Glide.with(mContext).load(Base64Utils.base64ToBitmap(mList.get(i).getThumbnail())).into(courseViewHolder.imageView);
+            courseViewHolder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "点击了课程", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, LiveActivity.class);
+                    intent.putExtra("title", mList.get(i).getTitle());
+                    intent.putExtra("url", mList.get(i).getUrl());
+                    mContext.startActivity(intent);
                     //mContext.startActivity(new Intent(mContext, LiveActivity.class));
                 }
             });
@@ -93,12 +132,14 @@ public class HomeFragment extends BaseFragment {
         }
 
         class CourseViewHolder extends RecyclerView.ViewHolder {
+            private CardView root;
             private TextView tvTitle;
             private ImageView imageView;
             private TextView num;
 
             public CourseViewHolder(@NonNull View itemView) {
                 super(itemView);
+                root = itemView.findViewById(R.id.root);
                 tvTitle = itemView.findViewById(R.id.tv_title_item_study);
                 imageView = itemView.findViewById(R.id.iv_badge_item_study);
                 num = itemView.findViewById(R.id.tv_students_item_course);

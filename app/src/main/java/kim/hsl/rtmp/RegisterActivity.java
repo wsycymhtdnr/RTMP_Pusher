@@ -1,5 +1,7 @@
 package kim.hsl.rtmp;
 
+import static kim.hsl.rtmp.publish.PublishActivity.BASE_URL;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEtPassword = findViewById(R.id.et_password);
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://5c92-171-113-194-1.ngrok.io/")
+                .baseUrl(BASE_URL)
                 .build();
         request = retrofit.create(Api.class);
 //region 加密公钥，暂时不用
